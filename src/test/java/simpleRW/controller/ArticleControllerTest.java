@@ -2,8 +2,10 @@ package simpleRW.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +56,7 @@ public class ArticleControllerTest {
 
 
     @Test
-    @DisplayName("GET /articles 요청 시 모든 게시글들의 리스트를 볼 수 있다.")
+    @DisplayName("GET /articles 요청 시 모든 게시글들의 리스트를 반환한다.")
     public void get_articles_test() throws Exception {
         mockMvc
             .perform(get("/articles"))
@@ -64,7 +66,7 @@ public class ArticleControllerTest {
     }
 
     @Test
-    @DisplayName("GET /articles/{id} 요청 시 해당 id의 게시글을 볼 수 있다.")
+    @DisplayName("GET /articles/{id} 요청 시 해당 id의 게시글을 반환한다.")
     public void get_one_article_test() throws Exception {
         int id = 1;
         when(articleService.findOneArticle(1)).thenReturn(articleDtos.get(0));
@@ -78,7 +80,7 @@ public class ArticleControllerTest {
 
 
     @Test
-    @DisplayName("POST /articles 요청 시 성공적으로 응답을 반환한다.")
+    @DisplayName("req 바디와 함께 POST /articles 요청 시 응답을 반환한다.")
     public void create_new_article_test() throws Exception {
 
         Map<String, Object> articleReq = new HashMap<>();
@@ -90,5 +92,29 @@ public class ArticleControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(articleReq)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("req 바디와 함께 PUT /articles 요청 시 응답을 반환한다.")
+    public void update_article_test() throws Exception {
+
+        Map<String, Object> articleReq = new HashMap<>();
+        articleReq.put("id", 1);
+        articleReq.put("title", "106번 게시글");
+        articleReq.put("author", "이백삼십삼상훈");
+
+
+        mockMvc.perform(put("/articles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(articleReq)))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("DELETE /articles/{id} 요청 시 응답을 반환한다.")
+    public void delete_article_test() throws Exception {
+
+        mockMvc.perform(delete("/articles/1"))
+            .andExpect(status().isOk());
     }
 }

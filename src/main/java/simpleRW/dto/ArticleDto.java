@@ -1,6 +1,6 @@
 package simpleRW.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +19,8 @@ public class ArticleDto {
     private String title;
     private String author;
     private String body;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private Date created_at;
+    private Date updated_at;
 
     public Article toEntity() {
         return Article.builder()

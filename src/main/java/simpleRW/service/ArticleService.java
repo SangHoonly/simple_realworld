@@ -1,5 +1,6 @@
 package simpleRW.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,12 @@ public class ArticleService {
     }
 
     public void saveArticle(ArticleDto articleDto) {
+        Date createdAt =
+            articleDto.getCreated_at() != null ? articleDto.getCreated_at() : new Date();
+
+        articleDto.setCreated_at(createdAt);
+        articleDto.setUpdated_at(new Date());
+
         articleRepository.save(articleDto.toEntity());
     }
 
