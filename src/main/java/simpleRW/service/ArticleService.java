@@ -35,16 +35,18 @@ public class ArticleService {
         return ArticleDto.toDto(articleRepository.findOneArticle(articleId));
     }
 
-    public void saveArticle(ArticleDto articleDto) {
-        Date createdAt =
-            articleDto.getCreated_at() != null ? articleDto.getCreated_at() : new Date();
+    public void insertArticle(ArticleDto articleReq) {
+        articleReq.setCreated_at(new Date());
+        articleReq.setUpdated_at(new Date());
 
-        articleDto.setCreated_at(createdAt);
-        articleDto.setUpdated_at(new Date());
-
-        articleRepository.save(articleDto.toEntity());
+        articleRepository.insertArticle(articleReq.toEntity());
     }
 
+    public void updateArticle(Integer articleId, ArticleDto articleReq) {
+        articleReq.setUpdated_at(new Date());
+
+        articleRepository.updateArticle(articleId, articleReq.toEntity());
+    }
 
     public void deleteArticle(Integer articleId) {
         articleRepository.delete(articleId);

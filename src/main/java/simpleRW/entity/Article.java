@@ -41,4 +41,9 @@ public class Article {
     private Date updatedAt;
 
 
+    public void update(Article updated) {
+        this.title = updated.getTitle() == null ? this.title : updated.getTitle();
+        this.body = updated.getBody() == null ? this.getBody() : updated.getBody();
+        this.updatedAt = updated.getUpdatedAt();
+    }
 }
