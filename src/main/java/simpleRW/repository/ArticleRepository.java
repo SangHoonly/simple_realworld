@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import simpleRW.dto.ArticleDto;
 import simpleRW.entity.Article;
 
 @Repository
@@ -21,11 +22,14 @@ public class ArticleRepository {
         return em.find(Article.class, articleId);
     }
 
-    public void save(Article article) {
-        if (article.getId() == null)
-            em.persist(article);
-        else
-            em.merge(article);
+    public void insertArticle(Article article) {
+        em.persist(article);
+    }
+
+    public void updateArticle(Integer articleId, Article updated) {
+        Article article = em.find(Article.class, articleId);
+
+        article.update(updated);
     }
 
     public void delete(Integer articleId) {

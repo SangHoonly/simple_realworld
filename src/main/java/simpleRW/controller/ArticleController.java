@@ -34,20 +34,17 @@ public class ArticleController {
     }
 
     @PostMapping
-    public String insertArticle(@RequestBody ArticleDto articleDto) {
-        articleService.saveArticle(articleDto);
-        return "ok";
+    public void insertArticle(@RequestBody ArticleDto articleDto) {
+        articleService.insertArticle(articleDto);
     }
 
-    @PutMapping
-    public String updateArticle(@RequestBody ArticleDto articleDto) {
-        articleService.saveArticle(articleDto);
-        return "ok";
+    @PutMapping("/{articleId}")
+    public void updateArticle( @PathVariable Integer articleId, @RequestBody ArticleDto articleDto) {
+        articleService.updateArticle(articleId, articleDto);
     }
 
     @DeleteMapping("/{articleId}")
-    public String deleteArticle(@PathVariable Integer articleId) {
+    public void deleteArticle(@PathVariable Integer articleId) {
         articleService.deleteArticle(articleId);
-        return "ok";
     }
 }
