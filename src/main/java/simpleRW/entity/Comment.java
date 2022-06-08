@@ -1,13 +1,13 @@
 package simpleRW.entity;
 
-import com.sun.istack.NotNull;
-import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,24 +21,26 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ARTICLES")
-public class Article {
+@Table(name = "COMMENTS")
+public class Comment {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ARTICLE_ID")
+    @Column(name = "COMMENT_ID")
     private Integer id;
-
-    private String title;
-
-    private String author;
 
     private String body;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @ManyToOne @JoinColumn(name = "ARTICLE_ID")
+    private Article article;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    private Date created_at;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated_at;
 
+    public void update(String body, Date updated_at) {
+        this.body = body;
+        this.updated_at = updated_at;
+    }
 }
