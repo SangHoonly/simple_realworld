@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import simpleRW.annotation.CheckBodyIsNull;
 import simpleRW.dto.CommentReq;
 import simpleRW.dto.CommentRes;
 import simpleRW.service.CommentService;
@@ -38,22 +39,28 @@ public class CommentController {
         return commentService.findOneComment(commentId);
     }
 
-
+    @CheckBodyIsNull
     @PostMapping
-    public void insertComment(@PathVariable Integer articleId, @RequestBody CommentReq commentReq) {
+    public String insertComment(@PathVariable Integer articleId, @RequestBody CommentReq commentReq) {
 
         commentReq.getArticleDto().setId(articleId);
 
         commentService.insertComment(commentReq);
+
+        return "ok";
     }
 
+
+    @CheckBodyIsNull
     @PutMapping("/{commentId}")
-    public void updateComment(
+    public String updateComment(
         @PathVariable Integer commentId,
         @RequestBody CommentReq commentReq,
         @PathVariable String articleId) {
 
         commentService.updateComment(commentId, commentReq);
+
+        return "ok";
     }
 
     @DeleteMapping("/{commentId}")
